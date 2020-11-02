@@ -3,8 +3,10 @@ yum update -y
 yum install epel-release -y
 yum install net-tools tcpdump nano -y
 echo "toor" | sudo passwd root --stdin
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+setenforce 0
 yum install openvpn iperf3 nano -y
-openvpn --genkey --secret /etc/openvpn/static.key
-mv /vagrant/server.conf /etc/openvpn/server.conf
+cp /vagrant/serv.conf /etc/openvpn/server.conf
+cp /vagrant/static.key /etc/openvpn/static.key
 systemctl start openvpn@server
 systemctl enable openvpn@server
