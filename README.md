@@ -15,6 +15,7 @@ VPN
 ### Практическая часть
 1. Между двумя виртуалками поднять vpn в режимах
 - tap
+
 Server
 ```
 [root@server vagrant]# iperf3 -s &
