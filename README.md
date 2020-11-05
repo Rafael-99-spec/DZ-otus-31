@@ -188,8 +188,17 @@ TAP эмулирует Ethernet устройство и работает на к
 
 ### 2. Поднять RAS на базе OpenVPN с клиентскими сертификатами, подключиться с локальной машины на виртуалку
 
-Для выполнения данного задания можно воспользоваться Vagrantfile из 1го задания, только уберем 2й ВМ. Vagrantfile будет выглядеть следующим образом.
-
-
+Для выполнения данного задания Vagrantfile будет выглядеть следующим образом.
+```
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure(2) do |config|
+ config.vm.box = "centos/7"
+ config.vm.define "server" do |server|
+ server.vm.hostname = "server.loc"
+ server.vm.network "private_network", ip: "192.168.10.10"
+ end
+end
+```
 
 После запуска ВМ отключаем SELinux (setenforce 0) или создаём правило для него.
