@@ -291,8 +291,6 @@ DH parameters of size 2048 created at /etc/openvpn/pki/dh.pem
 ```
 - Сгенерируем сертификаты для клиента.
 ```
-[root@server openvpn]# echo 'client' | /usr/share/easy-rsa/3 gen-req client nopass
-3/     3.0/   3.0.8/ 
 [root@server openvpn]# echo 'client' | /usr/share/easy-rsa/3/easyrsa gen-req client nopass
 Using SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017
 Generating a 2048 bit RSA private key
