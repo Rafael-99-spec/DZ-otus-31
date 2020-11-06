@@ -195,7 +195,7 @@ iperf Done.
 # vim: set ft=ruby :
 
 MACHINES = {
- :openvpnServerOffice1 => {
+ :server => {
         :box_name => "centos/7"
   }
 
@@ -214,58 +214,37 @@ Vagrant.configure("2") do |config|
           v.memory = 256
         end
 
-        #boxconfig[:net].each do |ipconf|
-        #  box.vm.network "private_network", ipconf
-        #end
         
         if boxconfig.key?(:public)
           box.vm.network "public_network", boxconfig[:public]
         end
 
         box.vm.provision "shell", inline: <<-SHELL
-          mkdir -p ~root/.ssh
+                mkdir -p ~root/.ssh
                 cp ~vagrant/.ssh/auth* ~root/.ssh
         SHELL
-        
-        # Директивы говорящие что надо использовать вход в гостевые машины используя логин и пароль
-        #config.ssh.username = 'vagrant'
-        #config.ssh.password = 'vagrant'
-        #config.ssh.insert_key = false
-        #config.ssh.connect_timeout = 5
 
 
         case boxname.to_s
-        when "openvpnServerOffice1"
+        when "server"
         box.vm.network "forwarded_port", guest: 1194, host: 1194, host_ip: "127.0.0.1"
           box.vm.provision "shell", run: "always", inline: <<-SHELL
-            
-            # Установка софта
-            sudo yum install -y epel-release; sudo yum install -y tcpdump iperf3 wget nano openvpn iptables-services; sudo systemctl enable iptables && sudo systemctl start iptables;
-            # Отключение файервола
-            sudo setenforce 0
-            sudo sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
-            
-            # Включаем форвардинг
-            sudo bash -c 'echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.conf'; sudo sysctl -p
-            
-            # Очищаем таблицы iptables
-            sudo iptables -P INPUT ACCEPT
-            sudo iptables -P FORWARD ACCEPT
-            sudo iptables -P OUTPUT ACCEPT
-            sudo iptables -t nat -F
-            sudo iptables -t mangle -F
-            sudo iptables -F
-            sudo iptables -X
-            sudo service iptables save
-            
-            # Создание необходимых директорий
-            sudo mkdir /var/log/openvpn
-            # Копируем файлы конфигурации и сертификаты
-            cp /vagrant/config/ras-server/server.conf /etc/openvpn/server.conf
-            cp -r /vagrant/certs/server/* /etc/openvpn/ 
-            # Включение openvpn
-            sudo systemctl enable openvpn@server && sudo systemctl start openvpn@server
-            
+            yum install -y epel-release; sudo yum install -y easy-rsa tcpdump iperf3 wget nano openvpn iptables-services; sudo systemctl enable iptables && sudo systemctl start iptables;
+            setenforce 0
+            sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
+            bash -c 'echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.conf'; sudo sysctl -p
+            iptables -P INPUT ACCEPT
+            iptables -P FORWARD ACCEPT
+            iptables -P OUTPUT ACCEPT
+            iptables -t nat -F
+            iptables -t mangle -F
+            iptables -F
+            iptables -X
+            service iptables save
+            mkdir /var/log/openvpn
+            cp /vagrant/config/server.conf /etc/openvpn/server.conf
+            cp -r /vagrant/certificates/* /etc/openvpn/ 
+            systemctl enable openvpn@server && systemctl start openvpn@server
             SHELL
         
         end
@@ -273,7 +252,8 @@ Vagrant.configure("2") do |config|
       end
 
   end
-
+  
+  
 end
 ```
 - После запуска ВМ отключаем SELinux (setenforce 0) или создаём правило для него.
@@ -454,7 +434,7 @@ verb 3
 /etc/openvpn/pki/private/client.key
 ```
 ```
-root@ubuntu:/home/rafael# ll /etc/openvpn/client/
+root@PC771:/home/rafael# ll /etc/openvpn/client/
 total 28
 drwxr-xr-x 2 root root 4096 Nov  6 16:28 ./
 drwxr-xr-x 4 root root 4096 Apr 23  2020 ../
@@ -465,7 +445,7 @@ drwxr-xr-x 4 root root 4096 Apr 23  2020 ../
 ```
 - Конфигурационный файл client.conf на хосте
 ```
-root@ubuntu:/etc/openvpn/client# cat /etc/openvpn/client/client.conf 
+root@PC771:/etc/openvpn/client# cat /etc/openvpn/client/client.conf 
 dev tun
 proto tcp
 remote 127.0.0.1 1194
