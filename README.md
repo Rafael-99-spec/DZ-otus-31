@@ -510,7 +510,7 @@ Fri Nov  6 16:35:39 2020 /sbin/ip route add 10.10.10.0/24 via 10.10.10.5
 Fri Nov  6 16:35:39 2020 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
 Fri Nov  6 16:35:39 2020 Initialization Sequence Completed
 ```
-Проверка связи с Хоста(клиента)
+- Проверка связи с Хоста(клиента)
 ```
 root@ubuntu:/home/rafael/otus_dz20# ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -553,7 +553,7 @@ PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
 3 packets transmitted, 3 received, 0% packet loss, time 2005ms
 rtt min/avg/max/mdev = 1.473/2.798/3.735/0.963 ms
 ```
-Проверка подключения к Хостовой машины из RAS-сервера
+- Проверка подключения к Хостовой машинн из RAS-сервера
 ```
 [root@openvpnServerOffice1 vagrant]# ping 10.10.10.6
 PING 10.10.10.6 (10.10.10.6) 56(84) bytes of data.
