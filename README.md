@@ -409,7 +409,7 @@ Data Base Updated
 Certificate created at: /etc/openvpn/pki/issued/client.crt
 ```
 
-Конечные результаты тестирования
+- Конечные результаты тестирования
 ```
 root@ubuntu:/etc/openvpn/client# openvpn --config /etc/openvpn/client/client.conf 
 Fri Nov  6 16:35:37 2020 WARNING: file '/etc/openvpn/client/client.key' is group or others accessible
