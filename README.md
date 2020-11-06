@@ -408,3 +408,84 @@ Data Base Updated
 
 Certificate created at: /etc/openvpn/pki/issued/client.crt
 ```
+
+Конечные результаты тестирования
+```
+root@ubuntu:/etc/openvpn/client# openvpn --config /etc/openvpn/client/client.conf 
+Fri Nov  6 16:35:37 2020 WARNING: file '/etc/openvpn/client/client.key' is group or others accessible
+Fri Nov  6 16:35:37 2020 OpenVPN 2.4.7 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Sep  5 2019
+Fri Nov  6 16:35:37 2020 library versions: OpenSSL 1.1.1f  31 Mar 2020, LZO 2.10
+Fri Nov  6 16:35:37 2020 WARNING: No server certificate verification method has been enabled.  See http://openvpn.net/howto.html#mitm for more info.
+Fri Nov  6 16:35:37 2020 TCP/UDP: Preserving recently used remote address: [AF_INET]127.0.0.1:1194
+Fri Nov  6 16:35:37 2020 Socket Buffers: R=[131072->131072] S=[16384->16384]
+Fri Nov  6 16:35:37 2020 Attempting to establish TCP connection with [AF_INET]127.0.0.1:1194 [nonblock]
+Fri Nov  6 16:35:37 2020 TCP connection established with [AF_INET]127.0.0.1:1194
+Fri Nov  6 16:35:37 2020 TCP_CLIENT link local: (not bound)
+Fri Nov  6 16:35:37 2020 TCP_CLIENT link remote: [AF_INET]127.0.0.1:1194
+Fri Nov  6 16:35:37 2020 TLS: Initial packet from [AF_INET]127.0.0.1:1194, sid=5b74e8f3 1a2d4701
+Fri Nov  6 16:35:37 2020 VERIFY OK: depth=1, CN=Easy-RSA CA
+Fri Nov  6 16:35:37 2020 VERIFY OK: depth=0, CN=server
+Fri Nov  6 16:35:37 2020 Control Channel: TLSv1.2, cipher TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384, 2048 bit RSA
+Fri Nov  6 16:35:37 2020 [server] Peer Connection Initiated with [AF_INET]127.0.0.1:1194
+Fri Nov  6 16:35:39 2020 SENT CONTROL [server]: 'PUSH_REQUEST' (status=1)
+Fri Nov  6 16:35:39 2020 PUSH: Received control message: 'PUSH_REPLY,route 10.10.10.0 255.255.255.0,topology net30,ping 10,ping-restart 120,ifconfig 10.10.10.6 10.10.10.5,peer-id 0,cipher AES-256-GCM'
+Fri Nov  6 16:35:39 2020 OPTIONS IMPORT: timers and/or timeouts modified
+Fri Nov  6 16:35:39 2020 OPTIONS IMPORT: --ifconfig/up options modified
+Fri Nov  6 16:35:39 2020 OPTIONS IMPORT: route options modified
+Fri Nov  6 16:35:39 2020 OPTIONS IMPORT: peer-id set
+Fri Nov  6 16:35:39 2020 OPTIONS IMPORT: adjusting link_mtu to 1627
+Fri Nov  6 16:35:39 2020 OPTIONS IMPORT: data channel crypto options modified
+Fri Nov  6 16:35:39 2020 Data Channel: using negotiated cipher 'AES-256-GCM'
+Fri Nov  6 16:35:39 2020 Outgoing Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
+Fri Nov  6 16:35:39 2020 Incoming Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
+Fri Nov  6 16:35:39 2020 ROUTE_GATEWAY 192.168.17.2/255.255.255.0 IFACE=ens33 HWADDR=00:0c:29:bb:70:ac
+Fri Nov  6 16:35:39 2020 TUN/TAP device tun0 opened
+Fri Nov  6 16:35:39 2020 TUN/TAP TX queue length set to 100
+Fri Nov  6 16:35:39 2020 /sbin/ip link set dev tun0 up mtu 1500
+Fri Nov  6 16:35:39 2020 /sbin/ip addr add dev tun0 local 10.10.10.6 peer 10.10.10.5
+Fri Nov  6 16:35:39 2020 /sbin/ip route add 10.10.10.0/24 via 10.10.10.5
+Fri Nov  6 16:35:39 2020 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Fri Nov  6 16:35:39 2020 Initialization Sequence Completed
+```
+```
+root@ubuntu:/home/rafael/otus_dz20# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:bb:70:ac brd ff:ff:ff:ff:ff:ff
+    inet 192.168.17.128/24 brd 192.168.17.255 scope global dynamic noprefixroute ens33
+       valid_lft 1480sec preferred_lft 1480sec
+    inet6 fe80::841c:c714:3d4:4d6d/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: vboxnet0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 0a:00:27:00:00:00 brd ff:ff:ff:ff:ff:ff
+4: vboxnet1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 0a:00:27:00:00:01 brd ff:ff:ff:ff:ff:ff
+5: vboxnet2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 0a:00:27:00:00:02 brd ff:ff:ff:ff:ff:ff
+6: vboxnet3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 0a:00:27:00:00:03 brd ff:ff:ff:ff:ff:ff
+7: vboxnet4: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 0a:00:27:00:00:04 brd ff:ff:ff:ff:ff:ff
+9: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 100
+    link/none 
+    inet 10.10.10.6 peer 10.10.10.5/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f05f:66d2:a2fb:fdde/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+```
+```
+root@ubuntu:/home/rafael/otus_dz20# ping 10.10.10.1
+PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
+64 bytes from 10.10.10.1: icmp_seq=1 ttl=64 time=1.47 ms
+64 bytes from 10.10.10.1: icmp_seq=2 ttl=64 time=3.74 ms
+64 bytes from 10.10.10.1: icmp_seq=3 ttl=64 time=3.19 ms
+^C
+--- 10.10.10.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+rtt min/avg/max/mdev = 1.473/2.798/3.735/0.963 ms
+```
