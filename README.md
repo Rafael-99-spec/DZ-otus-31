@@ -374,9 +374,9 @@ DH parameters of size 2048 created at /etc/openvpn/pki/dh.pem
 [root@server openvpn]# echo 'client' | /usr/share/easy-rsa/3/easyrsa gen-req client nopass
 Using SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017
 Generating a 2048 bit RSA private key
-............+++
-.............................................................................................................................................+++
-writing new private key to '/etc/openvpn/pki/easy-rsa-3765.epOHK2/tmp.ooKvlt'
+.....................................................................+++
+........................................................................+++
+writing new private key to '/etc/openvpn/pki/easy-rsa-3368.MTYIN3/tmp.TTD0f6'
 -----
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -389,6 +389,8 @@ Common Name (eg: your user, host, or server name) [client]:
 Keypair and certificate request completed. Your files are:
 req: /etc/openvpn/pki/reqs/client.req
 key: /etc/openvpn/pki/private/client.key
+
+
 [root@server openvpn]# echo 'yes' | /usr/share/easy-rsa/3/easyrsa sign-req client client
 Using SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017
 
@@ -405,12 +407,12 @@ subject=
 
 
 Type the word 'yes' to continue, or any other input to abort.
-  Confirm request details: Using configuration from /etc/openvpn/pki/easy-rsa-3794.FanJhg/tmp.GbGfOC
+  Confirm request details: Using configuration from /etc/openvpn/pki/easy-rsa-3396.YZTVMj/tmp.KDAfzW
 Check that the request matches the signature
 Signature ok
 The Subject's Distinguished Name is as follows
 commonName            :ASN.1 12:'client'
-Certificate is to be certified until Feb  8 15:41:46 2023 GMT (825 days)
+Certificate is to be certified until Feb  9 20:51:49 2023 GMT (825 days)
 
 Write out database with 1 new entries
 Data Base Updated
