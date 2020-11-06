@@ -264,7 +264,7 @@ end
 - Переходим в директорию ```/etc/openvpn/``` и инициализируем pki
 ```
  cd /etc/openvpn/
- [root@server openvpn]# /usr/share/easy-rsa/3.0.8/easyrsa init-pki
+[root@server openvpn]# /usr/share/easy-rsa/3.0.8/easyrsa init-pki
 init-pki complete; you may now create a CA or requests.
 Your newly created PKI dir is: /etc/openvpn/pki
  ```
