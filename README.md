@@ -407,17 +407,19 @@ subject=
 
 
 Type the word 'yes' to continue, or any other input to abort.
-  Confirm request details: Using configuration from /etc/openvpn/pki/easy-rsa-3396.YZTVMj/tmp.KDAfzW
+  Confirm request details: Using configuration from /etc/openvpn/pki/easy-rsa-25028.MWHlYY/tmp.Bbnkyz
 Check that the request matches the signature
 Signature ok
 The Subject's Distinguished Name is as follows
 commonName            :ASN.1 12:'client'
-Certificate is to be certified until Feb  9 20:51:49 2023 GMT (825 days)
+Certificate is to be certified until Feb  9 21:29:28 2023 GMT (825 days)
 
 Write out database with 1 new entries
 Data Base Updated
 
 Certificate created at: /etc/openvpn/pki/issued/client.crt
+
+
 ```
 - Создадим server.conf на RAS-сервере /etc/openvpn/server.conf
 ```
@@ -445,7 +447,7 @@ verb 3
 [root@server vagrant]# systemctl enable openvpn@server
 ```
 #### Настройка хоста(клиента)
-- Очень важно скопировать след. сгенерированные файлы на клиентскую машину, в папку где находится client.conf - /etc/openvpn/client/client.conf
+- Очень важно скопировать след. сгенерированные файлы на клиентскую машину, в папку где находится client.conf - /etc/openvpn/client/client.conf(расположены также в Github-репозитории в папке certificate-client)
 ```
 /etc/openvpn/pki/ca.crt
 /etc/openvpn/pki/issued/client.crt
@@ -472,7 +474,6 @@ resolv-retry infinite
 ca /etc/openvpn/client/ca.crt
 cert /etc/openvpn/client/client.crt
 key /etc/openvpn/client/client.key
-#route 10.10.10.0 255.255.255.0
 persist-key
 persist-tun
 comp-lzo
