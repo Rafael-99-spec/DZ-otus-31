@@ -539,6 +539,16 @@ PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.454/1.593/1.783/0.122 ms
 root@PC771:/home/rafael/DZ31# 
 ```
+```
+root@PC771:/home/rafael/DZ31# ip route
+default via 192.168.1.1 dev wlp1s0 proto dhcp metric 600 
+10.10.10.0/24 via 10.10.10.5 dev tun0 
+10.10.10.5 dev tun0 proto kernel scope link src 10.10.10.6 
+169.254.0.0/16 dev wlp1s0 scope link metric 1000 
+192.168.1.0/24 dev wlp1s0 proto kernel scope link src 192.168.1.130 metric 600 
+root@PC771:/home/rafael/DZ31# 
+
+```
 - Проверка подключения к Хостовой машинн из RAS-сервера
 ```
 [root@server openvpn]# ping 10.10.10.6
@@ -552,4 +562,12 @@ PING 10.10.10.6 (10.10.10.6) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3013ms
 rtt min/avg/max/mdev = 1.142/1.359/1.443/0.128 ms
 [root@server openvpn]# 
+```
+```
+[root@server vagrant]# ip route
+default via 10.0.2.2 dev eth0 proto dhcp metric 100 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 metric 100 
+10.10.10.0/24 via 10.10.10.2 dev tun0 
+10.10.10.2 dev tun0 proto kernel scope link src 10.10.10.1 
+[root@server vagrant]# 
 ```
