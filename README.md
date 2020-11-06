@@ -280,6 +280,7 @@ end
 
 - Установливаем необходимые пакеты - ```yum install -y epel-release && yum install -y openvpn easy-rsa```
 
+#### Настройка сервера
 - Переходим в директорию ```/etc/openvpn/``` и инициализируем pki
 ```
  cd /etc/openvpn/
@@ -408,7 +409,69 @@ Data Base Updated
 
 Certificate created at: /etc/openvpn/pki/issued/client.crt
 ```
-
+- Создадим server.conf на RAS-сервере /etc/openvpn/server.conf
+```
+port 1194
+proto tcp
+dev tun
+ca /etc/openvpn/ca.crt
+cert /etc/openvpn/server.crt
+key /etc/openvpn/server.key
+dh /etc/openvpn/dh.pem
+server 10.10.10.0 255.255.255.0
+#route 10.10.10.0 255.255.255.0
+#push "route 10.10.10.0 255.255.255.0"
+ifconfig-pool-persist ipp.txt
+client-to-client
+#client-config-dir /etc/openvpn/client
+keepalive 10 120
+comp-lzo
+persist-key
+persist-tun
+status /var/log/openvpn-status.log
+log /var/log/openvpn.log
+verb 3
+```
+- И запустим службу openvpn на сервере
+```
+[root@openvpnServerOffice1 vagrant]# systemctl start openvpn@server
+[root@openvpnServerOffice1 vagrant]# systemctl enable openvpn@server
+```
+#### Настройка хоста(клиента)
+- Очень важно скопировать след. сгенерированные файлы на клиентскую машину, в папку где находится client.conf - /etc/openvpn/client/client.conf
+```
+/etc/openvpn/pki/ca.crt
+/etc/openvpn/pki/issued/client.crt
+/etc/openvpn/pki/private/client.key
+```
+```
+root@ubuntu:/home/rafael/otus_dz20# ll /etc/openvpn/client/
+total 28
+drwxr-xr-x 2 root root 4096 Nov  6 16:28 ./
+drwxr-xr-x 4 root root 4096 Apr 23  2020 ../
+-rw-r--r-- 1 root root 1172 Nov  6 16:02 ca.crt
+-rw-r--r-- 1 root root  249 Nov  6 16:28 client.conf
+-rw-r--r-- 1 root root 4432 Nov  6 16:03 client.crt
+-rw-r--r-- 1 root root 1704 Nov  6 16:03 client.key
+```
+- Конфигурационный файл clirnt.conf на хосте
+```
+root@ubuntu:/etc/openvpn/client# cat /etc/openvpn/client/client.conf 
+dev tun
+proto tcp
+remote 127.0.0.1 1194
+client
+resolv-retry infinite
+ca /etc/openvpn/client/ca.crt
+cert /etc/openvpn/client/client.crt
+key /etc/openvpn/client/client.key
+#route 10.10.10.0 255.255.255.0
+persist-key
+persist-tun
+comp-lzo
+verb 3
+nobind
+```
 - Конечные результаты тестирования
 ```
 root@ubuntu:/etc/openvpn/client# openvpn --config /etc/openvpn/client/client.conf 
