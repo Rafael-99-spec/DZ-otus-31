@@ -571,3 +571,5 @@ default via 10.0.2.2 dev eth0 proto dhcp metric 100
 10.10.10.2 dev tun0 proto kernel scope link src 10.10.10.1 
 [root@server vagrant]# 
 ```
+1) Для запуска первого стенда достаточно скачать репозиторий на локальное хранилище и запустить vagrant стенд после перемещения в директорию DZ-otus-31/.
+2) Для запуска второго стенда необходимо скопировать все файлы из папки certificates-client, а также client.conf из папки configs в папку /etc/openvpn/client/, после чего скопировать файл configs/Vagrantfile-RAS в директорию DZ-otus-31/ под именем - Vagrantfile, и запустить стенд.
