@@ -419,11 +419,8 @@ cert /etc/openvpn/server.crt
 key /etc/openvpn/server.key
 dh /etc/openvpn/dh.pem
 server 10.10.10.0 255.255.255.0
-#route 10.10.10.0 255.255.255.0
-#push "route 10.10.10.0 255.255.255.0"
 ifconfig-pool-persist ipp.txt
 client-to-client
-#client-config-dir /etc/openvpn/client
 keepalive 10 120
 comp-lzo
 persist-key
@@ -434,8 +431,8 @@ verb 3
 ```
 - И запустим службу openvpn на сервере
 ```
-[root@openvpnServerOffice1 vagrant]# systemctl start openvpn@server
-[root@openvpnServerOffice1 vagrant]# systemctl enable openvpn@server
+[root@server vagrant]# systemctl start openvpn@server
+[root@server vagrant]# systemctl enable openvpn@server
 ```
 #### Настройка хоста(клиента)
 - Очень важно скопировать след. сгенерированные файлы на клиентскую машину, в папку где находится client.conf - /etc/openvpn/client/client.conf
@@ -445,7 +442,7 @@ verb 3
 /etc/openvpn/pki/private/client.key
 ```
 ```
-root@ubuntu:/home/rafael/otus_dz20# ll /etc/openvpn/client/
+root@ubuntu:/home/rafael# ll /etc/openvpn/client/
 total 28
 drwxr-xr-x 2 root root 4096 Nov  6 16:28 ./
 drwxr-xr-x 4 root root 4096 Apr 23  2020 ../
@@ -512,7 +509,7 @@ Fri Nov  6 16:35:39 2020 Initialization Sequence Completed
 ```
 - Проверка связи с Хоста(клиента)
 ```
-root@ubuntu:/home/rafael/otus_dz20# ip a
+root@ubuntu:/home/rafael/client# ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -543,7 +540,7 @@ root@ubuntu:/home/rafael/otus_dz20# ip a
        valid_lft forever preferred_lft forever
 ```
 ```
-root@ubuntu:/home/rafael/otus_dz20# ping 10.10.10.1
+root@ubuntu:/home/rafael/client# ping 10.10.10.1
 PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
 64 bytes from 10.10.10.1: icmp_seq=1 ttl=64 time=1.47 ms
 64 bytes from 10.10.10.1: icmp_seq=2 ttl=64 time=3.74 ms
