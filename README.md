@@ -454,7 +454,7 @@ drwxr-xr-x 4 root root 4096 Apr 23  2020 ../
 -rw-r--r-- 1 root root 4432 Nov  6 16:03 client.crt
 -rw-r--r-- 1 root root 1704 Nov  6 16:03 client.key
 ```
-- Конфигурационный файл clirnt.conf на хосте
+- Конфигурационный файл client.conf на хосте
 ```
 root@ubuntu:/etc/openvpn/client# cat /etc/openvpn/client/client.conf 
 dev tun
